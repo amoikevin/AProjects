@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <!-- <android.support.v7.widget.SearchView
+        android:id="@+id/searcher"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:iconifiedByDefault="false"
+        android:inputType="textFilter"
+        android:queryHint="@string/search_hint" /> -->
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/fresher"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/searcher"
+        android:background="#00ff00" >
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/gallery"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#0000ff" >
+        </android.support.v7.widget.RecyclerView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+</RelativeLayout>
