@@ -1,22 +1,20 @@
-/**
- *
- */
 package android.audio.player;
 
 import android.app.Activity;
-import android.content.ComponentName;
-import android.content.ServiceConnection;
 import android.os.Bundle;
-import android.os.IBinder;
 
-public class AudioPlayerActivity extends Activity implements ServiceConnection
+import com.google.android.exoplayer.ExoPlayer;
+
+public class AudioPlayerActivity extends Activity
 {
+	private ExoPlayer _MediaPlayer = null;
 
 	@Override
 	public void onCreate(final Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 
+		_MediaPlayer = ExoPlayer.Factory.newInstance(1);
 	}
 
 	@Override
@@ -30,14 +28,14 @@ public class AudioPlayerActivity extends Activity implements ServiceConnection
 	public void onResume()
 	{
 		super.onResume();
-		//bindService(service, conn, flags);
+
 	}
 
 	@Override
 	public void onPause()
 	{
 		super.onPause();
-		//		unbindService(conn);
+
 	}
 
 	@Override
@@ -54,14 +52,12 @@ public class AudioPlayerActivity extends Activity implements ServiceConnection
 
 	}
 
-	@Override
-	public void onServiceConnected(final ComponentName name, final IBinder service)
+	public void start()
 	{
 
 	}
 
-	@Override
-	public void onServiceDisconnected(final ComponentName name)
+	public void pause()
 	{
 
 	}
