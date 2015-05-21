@@ -18,7 +18,9 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.Adapter;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -29,29 +31,42 @@ public class StartActivity extends AppCompatActivity implements IFragmentManager
 	{
 		public class DrawerViewHolder extends ViewHolder
 		{
+			private final TextView title;
+
 			public DrawerViewHolder(final View view)
 			{
 				super(view);
+				title = (TextView) view.findViewById(R.id.title);
 			}
 		}
 
 		@Override
 		public DrawerViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType)
 		{
-			final TextView view = new TextView(StartActivity.this);
+			final View view = LayoutInflater.from(StartActivity.this).inflate(R.layout.entry_drawer, parent, false);
 			return new DrawerViewHolder(view);
 		}
 
 		@Override
 		public void onBindViewHolder(final DrawerViewHolder holder, final int position)
 		{
-
+			final Pair<Integer, Fragment> pair = mFragments.get(0);
+			final String title = getResources().getString(pair.first);
+			holder.title.setText(title);
+			holder.itemView.setOnClickListener(new OnClickListener()
+			{
+				@Override
+				public void onClick(final View v)
+				{
+					replace(title, pair.second);
+				}
+			});
 		}
 
 		@Override
 		public int getItemCount()
 		{
-			return 0;
+			return mFragments.size();
 		}
 	}
 
@@ -59,6 +74,7 @@ public class StartActivity extends AppCompatActivity implements IFragmentManager
 	private ActionBarDrawerToggle mDrawerToggle = null;
 	private DrawerLayout mDrawerLayout = null;
 	private RecyclerView mDrawerView = null;
+	private DrawerViewAdapter mDrawerAdapter = null;
 	private FrameLayout mContentView = null;
 	private final List<Pair<Integer, Fragment>> mFragments = new ArrayList<Pair<Integer, Fragment>>();
 
@@ -79,13 +95,13 @@ public class StartActivity extends AppCompatActivity implements IFragmentManager
 		getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 		getSupportActionBar().setDisplayShowHomeEnabled(false);
 		getSupportActionBar().setHomeButtonEnabled(false);
-		getSupportActionBar().setTitle("");
 
 		mContentView = (FrameLayout) findViewById(R.id.content);
 
+		mDrawerAdapter = new DrawerViewAdapter();
 		mDrawerView = (RecyclerView) findViewById(R.id.drawer);
 		mDrawerView.setLayoutManager(new LinearLayoutManager(this));
-		mDrawerView.setAdapter(null);
+		mDrawerView.setAdapter(mDrawerAdapter);
 		//mDrawerView.setAdapter(new ArrayAdapter<String>(this,));
 		//mRecyclerView.setOnItemClickListener(onClickItem);
 
@@ -105,8 +121,7 @@ public class StartActivity extends AppCompatActivity implements IFragmentManager
 			}
 		};
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
-		final Pair<Integer, Fragment> pair = mFragments.get(0);
-		replace(getResources().getString(pair.first), pair.second);
+
 	}
 
 	@Override
